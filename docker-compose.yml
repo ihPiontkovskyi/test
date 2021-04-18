@@ -1,0 +1,116 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  config:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+    image: image/basic-config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  registry:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+    image: image/basic-registry
+    restart: always
+    ports:
+      - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  gateway:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+    image: image/basic-gateway
+    restart: always
+    ports:
+      - 80:4000
+    logging:
+      options:
+        max-size: "10M"
+        max-file: "10"
+
+  monitoring:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+    image: image/basic-monitoring
+    restart: always
+    ports:
+      - 9000:8080
+      - 8989:8989
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  service-auth:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+#      NOTIFICATION_SERVICE_PASSWORD: $NOTIFICATION_SERVICE_PASSWORD
+#      STATISTICS_SERVICE_PASSWORD: $STATISTICS_SERVICE_PASSWORD
+      SERVICE_ACCOUNT_PASSWORD: $MSW_SERVICE_ACCOUNT_PASSWORD
+      SERVICE_AUTH_DB_USER: $MSW_DB_USER
+      SERVICE_AUTH_DB_PASSWORD: $MSW_DB_PASSWORD
+    image: image/basic-service-auth
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  service-auth-db:
+    image: mysql
+    container_name: basic-auth-db
+    environment:
+      - MYSQL_DATABASE=auth
+      - MYSQL_ROOT_PASSWORD=$MSW_ROOT_PASSWORD
+      - MYSQL_USER=$MSW_DB_USER
+      - MYSQL_PASSWORD=$MSW_DB_PASSWORD
+    ports:
+      - "3307:3306"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  service-account:
+    environment:
+      CONFIG_SERVICE_PASSWORD: $MSW_CONFIG_SERVICE_PASSWORD
+      SERVICE_ACCOUNT_DB_USER: $MSW_DB_USER
+      SERVICE_ACCOUNT_DB_PASSWORD: $MSW_DB_PASSWORD
+      SERVICE_ACCOUNT_PASSWORD: $MSW_SERVICE_ACCOUNT_PASSWORD
+    image: image/basic-service-account
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  service-account-db:
+    image: mysql
+    container_name: basic-account-db
+    environment:
+      - MYSQL_DATABASE=account
+      - MYSQL_ROOT_PASSWORD=$MSW_ROOT_PASSWORD
+      - MYSQL_USER=$MSW_DB_USER
+      - MYSQL_PASSWORD=$MSW_DB_PASSWORD
+    ports:
+      - "3308:3306"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
