@@ -5,19 +5,18 @@ if [ $? -ne 0 ]; then
     exit
 fi
 
-DIR=$PWD
 
 if [ $1 == "all" ]; then
-    cd ${DIR}/config && mvn clean package
-    cd ${DIR}/gateway && mvn clean package
-    cd ${DIR}/monitoring && mvn clean package
-    cd ${DIR}/registry && mvn clean package
-    cd ${DIR}/service-account && mvn clean package
-    cd ${DIR}/service-auth && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/config && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/gateway && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/monitoring && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/registry && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/service-account && mvn clean package
+    cd /home/epuakyiw098f/KNU/microservices-basic/service-auth && mvn clean package
 else
     for var in "$@"
     do
-        cd ${DIR}/$var && mvn clean package
+        cd /home/epuakyiw098f/KNU/microservices-basic/$var && mvn clean package
     done
 fi
 

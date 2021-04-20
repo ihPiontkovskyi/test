@@ -67,6 +67,8 @@ services:
       SERVICE_AUTH_DB_PASSWORD: $MSW_DB_PASSWORD
     image: image/basic-service-auth
     restart: always
+    depends_on:
+      - service-account-db
     logging:
       options:
         max-size: "10m"
@@ -78,8 +80,6 @@ services:
     environment:
       - MYSQL_DATABASE=auth
       - MYSQL_ROOT_PASSWORD=$MSW_ROOT_PASSWORD
-      - MYSQL_USER=$MSW_DB_USER
-      - MYSQL_PASSWORD=$MSW_DB_PASSWORD
     ports:
       - "3307:3306"
     logging:
@@ -95,6 +95,8 @@ services:
       SERVICE_ACCOUNT_PASSWORD: $MSW_SERVICE_ACCOUNT_PASSWORD
     image: image/basic-service-account
     restart: always
+    depends_on:
+      - service-account-db
     logging:
       options:
         max-size: "10m"
@@ -106,8 +108,6 @@ services:
     environment:
       - MYSQL_DATABASE=account
       - MYSQL_ROOT_PASSWORD=$MSW_ROOT_PASSWORD
-      - MYSQL_USER=$MSW_DB_USER
-      - MYSQL_PASSWORD=$MSW_DB_PASSWORD
     ports:
       - "3308:3306"
     logging:

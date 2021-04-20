@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://service-auth-db/auth
+    url: jdbc:mysql://127.0.0.1:3306/auth
     username: ${SERVICE_AUTH_DB_USER}
     password: ${SERVICE_AUTH_DB_PASSWORD}
     driver-class-name: com.mysql.jdbc.Driver
@@ -9,7 +9,7 @@ spring:
       maximum-pool-size: 5
 
 flyway:
-  url: jdbc:mysql://service-auth-db:3306/auth
+  url: jdbc:mysql://127.0.0.1:3306/auth
   user: ${SERVICE_AUTH_DB_USER}
   password: ${SERVICE_AUTH_DB_PASSWORD}
   locations: classpath:db/migration
